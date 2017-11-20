@@ -22,15 +22,24 @@ import csu.cas.poac.services.MetadataServiceImpl;
 import csu.cas.poac.services.PlanServiceImpl;
 import csu.cas.poac.util.DateUtils;
 import csu.cas.poac.valueobject.MetadataCtccRawForm;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.models.Response;
 
 @RestController
 @RequestMapping("/v1/oim")
+@Api(value = "API - ApiController")
 public class ApiController {
 	@Autowired
 	private MetadataServiceImpl metadataService;
 	@Autowired
 	private PlanServiceImpl planService;
-
+	@ApiOperation(value = "查找下行计划", httpMethod = "GET", response = Response.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "timeStart", required = true, dataType = "String", paramType = "query"),
+		@ApiImplicitParam(name = "timeStop", required = true, dataType = "String", paramType = "query") })
 	@GetMapping(value ="/downlinkPlan",produces ="application/json")
 	public ResponseEntity<?> getDownlinkPlan(@RequestParam("timeStart") String timeStart,@RequestParam("timeStop")String timeStop) {
 		Collection<Plan> downlinkPlan;
@@ -61,6 +70,11 @@ public class ApiController {
 		}
 	
 	}
+	
+	@ApiOperation(value = "CCTC原始文件归档", httpMethod = "POST", response = Response.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "cctcRawForm", required = true, dataType = "MetadataCtccRawForm", paramType = "body")
+		})
 	@PostMapping(value = "/ctccRawMetadata",produces ="application/json")
 	public ResponseEntity<?> archiveCtccRawMetadata(@RequestBody MetadataCtccRawForm cctcRawForm) {
 		Map<String,Object> map = new HashMap<String,Object>();
