@@ -16,7 +16,7 @@ import csu.cas.poac.valueobject.MetadataCtccRawForm;
 @Transactional
 public class MetadataServiceImpl implements MetadataService {
     @Autowired
-    private  CctcRawRepository<CctcRaw, String> cctcRawRepository;
+    private  CctcRawRepository cctcRawRepository;
 
 	public CctcRaw archiveCtccRawMetadata(MetadataCtccRawForm cctcRawForm) {
 		CctcRaw cctcRaw = new CctcRaw();

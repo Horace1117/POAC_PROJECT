@@ -8,8 +8,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 
 import csu.cas.poac.model.CctcRaw;
-@NoRepositoryBean
-public interface CctcRawRepository<CctcRaw,String> extends CrudRepository<CctcRaw, Long>{
+
+public interface CctcRawRepository extends CctcRepository<CctcRaw, String> {
 	@Query(value = "select * from cctcraw c", nativeQuery = true)
 	Collection<CctcRaw> getAll();
 }

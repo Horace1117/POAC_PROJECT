@@ -2,7 +2,10 @@ package csu.cas.poac.repository;
 
 import csu.cas.poac.model.CctcRaw;
 import csu.cas.poac.model.Plan;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-public interface CctcRepository extends CctcRawRepository<CctcRaw, String> {
+@NoRepositoryBean
+public interface CctcRepository<CctcRaw,String> extends CrudRepository<CctcRaw, Long> {
 
 }

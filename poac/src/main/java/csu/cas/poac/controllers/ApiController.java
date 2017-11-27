@@ -6,7 +6,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,16 +35,22 @@ import io.swagger.models.Response;
 @RequestMapping("/v1/oim")
 @Api(value = "API - ApiController")
 public class ApiController {
+	private final Logger logger = Logger.getLogger(getClass());
+	@Autowired
+	private DiscoveryClient client;
 	@Autowired
 	private MetadataServiceImpl metadataService;
 	@Autowired
 	private PlanServiceImpl planService;
+
 	@ApiOperation(value = "查找下行计划", httpMethod = "GET", response = Response.class)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "timeStart", required = true, dataType = "String", paramType = "query"),
 		@ApiImplicitParam(name = "timeStop", required = true, dataType = "String", paramType = "query") })
 	@GetMapping(value ="/downlinkPlan",produces ="application/json")
 	public ResponseEntity<?> getDownlinkPlan(@RequestParam("timeStart") String timeStart,@RequestParam("timeStop")String timeStop) {
+		ServiceInstance instance = client.getLocalServiceInstance();
+		logger.info("/downlinkPlan,host:" + instance.getHost() + ", service_id:" + instance.getServiceId());
 		Collection<Plan> downlinkPlan;
 		Map<String,Object> map = new HashMap<String,Object>();
 		//检查日期格式

@@ -11,7 +11,6 @@ import csu.cas.poac.model.Plan;
 
 @NoRepositoryBean
 public interface PlanRepository<Plan,String> extends CrudRepository<Plan, Long> {
-	@Query(value = "select * from plan p where p.timestart < ?1 and p.timestop>?2", nativeQuery = true)
-	Collection<Plan> findPlanByTime(String timeStart,String timeStop);
+
 	
 }
